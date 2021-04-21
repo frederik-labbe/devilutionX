@@ -938,8 +938,6 @@ void NextPlrLevel(int pnum)
 	CalcPlrInv(pnum, true);
 }
 
-#define MAXEXP 2000000000
-
 void AddPlrExperience(int pnum, int lvl, int exp)
 {
 	int powerLvlCap, expCap, newLvl, i;
@@ -980,16 +978,17 @@ void AddPlrExperience(int pnum, int lvl, int exp)
 	}
 
 	plr[pnum]._pExperience += exp;
-	if ((DWORD)plr[pnum]._pExperience > MAXEXP) {
-		plr[pnum]._pExperience = MAXEXP;
+	if ((DWORD)plr[pnum]._pExperience > ExpLvlsTbl[MAXCHARLEVEL - 1]) {
+		plr[pnum]._pExperience = ExpLvlsTbl[MAXCHARLEVEL - 1];
 	}
 
 	if (sgOptions.Gameplay.bExperienceBar) {
 		force_redraw = 255;
 	}
 
-	if (plr[pnum]._pExperience >= ExpLvlsTbl[49]) {
-		plr[pnum]._pLevel = 50;
+	if (plr[pnum]._pExperience >= ExpLvlsTbl[MAXCHARLEVEL - 2]) {
+		plr[pnum]._pLevel = MAXCHARLEVEL - 1;
+		plr[pnum]._pNextExper = ExpLvlsTbl[MAXCHARLEVEL - 1];
 		return;
 	}
 
