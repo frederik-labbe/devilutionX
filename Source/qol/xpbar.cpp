@@ -75,12 +75,7 @@ void DrawXPBar(const CelOutputBuffer &out)
 
 	const int charLevel = player._pLevel;
 
-	if (charLevel == MAXCHARLEVEL - 1) {
-		// Draw a nice golden bar for max level characters.
-		DrawBar(out, xPos, yPos, BAR_WIDTH, GOLD_GRADIENT);
-
-		return;
-	}
+	const ColorGradient& gradient = (charLevel == MAXCHARLEVEL - 1) ? GOLD_GRADIENT : SILVER_GRADIENT;
 
 	const int prevXp = ExpLvlsTbl[charLevel - 1];
 	if (player._pExperience < prevXp)
@@ -94,13 +89,13 @@ void DrawXPBar(const CelOutputBuffer &out)
 	Uint64 onePx = prevXpDelta / BAR_WIDTH;
 	Uint64 lastFullPx = fullBar * prevXpDelta / BAR_WIDTH;
 
-	const Uint64 fade = (prevXpDelta_1 - lastFullPx) * (SILVER_GRADIENT.size() - 1) / onePx;
+	const Uint64 fade = (prevXpDelta_1 - lastFullPx) * (gradient.size() - 1) / onePx;
 
 	// Draw beginning of bar full brightness
-	DrawBar(out, xPos, yPos, fullBar, SILVER_GRADIENT);
+	DrawBar(out, xPos, yPos, fullBar, gradient);
 
 	// End pixels appear gradually
-	DrawEndCap(out, xPos + fullBar, yPos, fade, SILVER_GRADIENT);
+	DrawEndCap(out, xPos + fullBar, yPos, fade, gradient);
 }
 
 bool CheckXPBarInfo()
@@ -118,34 +113,22 @@ bool CheckXPBarInfo()
 
 	const int charLevel = player._pLevel;
 
-	sprintf(tempstr, "Level %d", charLevel);
-	AddPanelString(tempstr, true);
-
-	if (charLevel == MAXCHARLEVEL - 1) {
-		// Show a maximum level indicator for max level players.
-		infoclr = COL_GOLD;
-
-		sprintf(tempstr, "Experience: ");
-		PrintWithSeparator(tempstr + SDL_arraysize("Experience: ") - 1, ExpLvlsTbl[charLevel - 1]);
-		AddPanelString(tempstr, true);
-
-		AddPanelString("Maximum Level", true);
-
-		return true;
-	}
-
 	infoclr = COL_WHITE;
 
+	sprintf(tempstr, "Level %d", charLevel);
+	AddPanelString(tempstr, true);
 	sprintf(tempstr, "Experience: ");
 	PrintWithSeparator(tempstr + SDL_arraysize("Experience: ") - 1, player._pExperience);
 	AddPanelString(tempstr, true);
 
-	sprintf(tempstr, "Next Level: ");
-	PrintWithSeparator(tempstr + SDL_arraysize("Next Level: ") - 1, ExpLvlsTbl[charLevel]);
-	AddPanelString(tempstr, true);
-
-	sprintf(PrintWithSeparator(tempstr, ExpLvlsTbl[charLevel] - player._pExperience), " to Level %d", charLevel + 1);
-	AddPanelString(tempstr, true);
+	if (charLevel != (MAXCHARLEVEL - 1)) {
+		auto difference = ExpLvlsTbl[charLevel] - player._pExperience;
+		sprintf(tempstr, "Next level: ");
+		PrintWithSeparator(tempstr + SDL_arraysize("Next level: ") - 1, ExpLvlsTbl[charLevel]);
+		AddPanelString(tempstr, true);
+		sprintf(PrintWithSeparator(tempstr, difference), " to level %d", charLevel + 1);
+		AddPanelString(tempstr, true);
+	}
 
 	return true;
 }
