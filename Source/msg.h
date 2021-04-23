@@ -12,6 +12,7 @@
 #include "monster.h"
 #include "portal.h"
 #include "items.h"
+#include "utils/endian_int.h"
 
 namespace devilution {
 
@@ -146,42 +147,42 @@ struct TCmdLocParam1 {
 	_cmd_id bCmd;
 	Uint8 x;
 	Uint8 y;
-	Uint16 wParam1;
+	Uint16_NET wParam1;
 };
 
 struct TCmdLocParam2 {
 	_cmd_id bCmd;
 	Uint8 x;
 	Uint8 y;
-	Uint16 wParam1;
-	Uint16 wParam2;
+	Uint16_NET wParam1;
+	Uint16_NET wParam2;
 };
 
 struct TCmdLocParam3 {
 	_cmd_id bCmd;
 	Uint8 x;
 	Uint8 y;
-	Uint16 wParam1;
-	Uint16 wParam2;
-	Uint16 wParam3;
+	Uint16_NET wParam1;
+	Uint16_NET wParam2;
+	Uint16_NET wParam3;
 };
 
 struct TCmdParam1 {
 	_cmd_id bCmd;
-	Uint16 wParam1;
+	Uint16_NET wParam1;
 };
 
 struct TCmdParam2 {
 	_cmd_id bCmd;
-	Uint16 wParam1;
-	Uint16 wParam2;
+	Uint16_NET wParam1;
+	Uint16_NET wParam2;
 };
 
 struct TCmdParam3 {
 	_cmd_id bCmd;
-	Uint16 wParam1;
-	Uint16 wParam2;
-	Uint16 wParam3;
+	Uint16_NET wParam1;
+	Uint16_NET wParam2;
+	Uint16_NET wParam3;
 };
 
 struct TCmdGolem {
@@ -190,7 +191,7 @@ struct TCmdGolem {
 	Uint8 _my;
 	direction _mdir;
 	Sint8 _menemy;
-	Sint32 _mhitpoints;
+	Sint32_NET _mhitpoints;
 	Uint8 _currlevel;
 };
 
@@ -210,19 +211,19 @@ struct TCmdGItem {
 	Uint8 bLevel;
 	Uint8 x;
 	Uint8 y;
-	Uint16 wIndx;
-	Uint16 wCI;
-	Sint32 dwSeed;
+	Uint16_NET wIndx;
+	Uint16_NET wCI;
+	Sint32_NET dwSeed;
 	Uint8 bId;
 	Uint8 bDur;
 	Uint8 bMDur;
 	Uint8 bCh;
 	Uint8 bMCh;
-	Uint16 wValue;
-	Uint32 dwBuff;
-	Sint32 dwTime;
-	Uint16 wToHit;
-	Uint16 wMaxDam;
+	Uint16_NET wValue;
+	Uint32_NET dwBuff;
+	Sint32_NET dwTime;
+	Uint16_NET wToHit;
+	Uint16_NET wMaxDam;
 	Uint8 bMinStr;
 	Uint8 bMinMag;
 	Uint8 bMinDex;
@@ -233,18 +234,18 @@ struct TCmdPItem {
 	_cmd_id bCmd;
 	Uint8 x;
 	Uint8 y;
-	Uint16 wIndx;
-	Uint16 wCI;
-	Sint32 dwSeed;
+	Uint16_NET wIndx;
+	Uint16_NET wCI;
+	Sint32_NET dwSeed;
 	Uint8 bId;
 	Uint8 bDur;
 	Uint8 bMDur;
 	Uint8 bCh;
 	Uint8 bMCh;
-	Uint16 wValue;
-	Uint32 dwBuff;
-	Uint16 wToHit;
-	Uint16 wMaxDam;
+	Uint16_NET wValue;
+	Uint32_NET dwBuff;
+	Uint16_NET wToHit;
+	Uint16_NET wMaxDam;
 	Uint8 bMinStr;
 	Uint8 bMinMag;
 	Uint8 bMinDex;
@@ -254,11 +255,11 @@ struct TCmdPItem {
 struct TCmdChItem {
 	_cmd_id bCmd;
 	Uint8 bLoc;
-	Uint16 wIndx;
-	Uint16 wCI;
-	Sint32 dwSeed;
+	Uint16_NET wIndx;
+	Uint16_NET wCI;
+	Sint32_NET dwSeed;
 	Uint8 bId;
-	Uint32 dwBuff;
+	Uint32_NET dwBuff;
 };
 
 struct TCmdDelItem {
@@ -269,19 +270,19 @@ struct TCmdDelItem {
 struct TCmdDamage {
 	_cmd_id bCmd;
 	Uint8 bPlr;
-	Uint32 dwDam;
+	Uint32_NET dwDam;
 };
 
 struct TCmdMonDamage {
 	_cmd_id bCmd;
-	Uint16 wMon;
-	Uint32 dwDam;
+	Uint16_NET wMon;
+	Uint32_NET dwDam;
 };
 
 struct TCmdPlrInfoHdr {
 	_cmd_id bCmd;
-	Uint16 wOffset;
-	Uint16 wBytes;
+	Uint16_NET wOffset;
+	Uint16_NET wBytes;
 };
 
 struct TCmdString {
@@ -297,35 +298,35 @@ struct TFakeCmdPlr {
 struct TFakeDropPlr {
 	_cmd_id bCmd;
 	Uint8 bPlr;
-	Uint32 dwReason;
+	Uint32_NET dwReason;
 };
 
 struct TSyncHeader {
 	_cmd_id bCmd;
 	Uint8 bLevel;
-	Uint16 wLen;
+	Uint16_NET wLen;
 	Uint8 bObjId;
 	Uint8 bObjCmd;
 	Uint8 bItemI;
 	Uint8 bItemX;
 	Uint8 bItemY;
-	Uint16 wItemIndx;
-	Uint16 wItemCI;
-	Uint32 dwItemSeed;
+	Uint16_NET wItemIndx;
+	Uint16_NET wItemCI;
+	Uint32_NET dwItemSeed;
 	Uint8 bItemId;
 	Uint8 bItemDur;
 	Uint8 bItemMDur;
 	Uint8 bItemCh;
 	Uint8 bItemMCh;
-	Uint16 wItemVal;
-	Uint32 dwItemBuff;
+	Uint16_NET wItemVal;
+	Uint32_NET dwItemBuff;
 	Uint8 bPInvLoc;
-	Uint16 wPInvIndx;
-	Uint16 wPInvCI;
-	Uint32 dwPInvSeed;
+	Uint16_NET wPInvIndx;
+	Uint16_NET wPInvCI;
+	Uint32_NET dwPInvSeed;
 	Uint8 bPInvId;
-	Uint16 wToHit;
-	Uint16 wMaxDam;
+	Uint16_NET wToHit;
+	Uint16_NET wMaxDam;
 	Uint8 bMinStr;
 	Uint8 bMinMag;
 	Uint8 bMinDex;
@@ -345,13 +346,13 @@ struct TPktHdr {
 	Uint8 py;
 	Uint8 targx;
 	Uint8 targy;
-	Sint32 php;
-	Sint32 pmhp;
+	Sint32_NET php;
+	Sint32_NET pmhp;
 	Uint8 bstr;
 	Uint8 bmag;
 	Uint8 bdex;
-	Uint16 wCheck;
-	Uint16 wLen;
+	Uint16_NET wCheck;
+	Uint16_NET wLen;
 };
 
 struct TPkt {
@@ -365,7 +366,7 @@ struct DMonsterStr {
 	direction _mdir;
 	Uint8 _menemy;
 	Uint8 _mactive;
-	Sint32 _mhitpoints;
+	Sint32_NET _mhitpoints;
 };
 
 struct DObjectStr {
@@ -405,7 +406,7 @@ struct DJunk {
 #pragma pack(push, 1)
 struct TMegaPkt {
 	struct TMegaPkt *pNext;
-	Uint32 dwSpaceLeft;
+	Uint32_NET dwSpaceLeft;
 	Uint8 data[32000];
 };
 #pragma pack(pop)

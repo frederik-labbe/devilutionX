@@ -20,10 +20,11 @@ enum event_type : uint8_t {
 	EVENT_TYPE_PLAYER_MESSAGE,
 };
 
+#pragma pack(push, 1)
 struct GameData {
-	Sint32 size;
-	Sint32 dwSeed;
-	Uint32 programid;
+	Sint32_NET size;
+	Sint32_NET dwSeed;
+	Uint32_NET programid;
 	Uint8 versionMajor;
 	Uint8 versionMinor;
 	Uint8 versionPatch;
@@ -34,6 +35,7 @@ struct GameData {
 	Uint8 bCowQuest;
 	Uint8 bFriendlyFire;
 };
+#pragma pack(pop)
 
 extern bool gbSomebodyWonGameKludge;
 extern char szPlayerDescript[128];
