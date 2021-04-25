@@ -596,16 +596,12 @@ void InitMonster(int i, direction rd, int mtype, int x, int y)
 
 		switch (rndWhichSuperPower) {
 			case 0:
-				qq = (char*) malloc((strlen("Powerful ")+ strlen(monster[i].mName) + 1)*sizeof(char));
-				strcpy(qq, "Powerful ");
+				qq = (char*) malloc((strlen("Realistic ")+ strlen(monster[i].mName) + 1)*sizeof(char));
+				strcpy(qq, "Realistic ");
 				strcat(qq, monster[i].mName);
 				monster[i].mName = qq;
 				
-				monster[i].mMinDamage *= 2;
-				monster[i].mMaxDamage *= 2;
-				
-				monster[i].mMinDamage2 *= 2;
-				monster[i].mMaxDamage2 *= 2;
+				monster[i].mMagicRes = 9999;
 				
 				break;
 			case 1:
