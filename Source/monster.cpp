@@ -589,59 +589,59 @@ void InitMonster(int i, direction rd, int mtype, int x, int y)
 		monster[i].mMaxDamage2 = 4 * monster[i].mMaxDamage2 + 6;
 		monster[i].mArmorClass += HELL_AC_BONUS;
 		monster[i].mMagicRes = monst->MData->mMagicRes2;
-        
-        int32_t rndWhichSuperPower = GenerateRnd(4);
-        
-        char * qq;
-        
-        switch (rndWhichSuperPower) {
-            case 0:
-                qq = (char*) malloc((strlen("Powerful ")+ strlen(monster[i].mName) + 1)*sizeof(char));
-                strcpy(qq, "Powerful ");
-                strcat(qq, monster[i].mName);
-                monster[i].mName = qq;
-                
-                monster[i].mMinDamage *= 2;
-                monster[i].mMaxDamage *= 2;
-                
-                monster[i].mMinDamage2 *= 2;
-                monster[i].mMaxDamage2 *= 2;
-                
-                break;
-            case 1:
-                qq = (char*) malloc((strlen("Armored ")+ strlen(monster[i].mName) + 1)*sizeof(char));
-                strcpy(qq, "Armored ");
-                strcat(qq, monster[i].mName);
-                monster[i].mName = qq;
-                
-                monster[i].mArmorClass *= 2;
-                
-                break;
-            case 2:
-                qq = (char*) malloc((strlen("Emotional ")+ strlen(monster[i].mName) + 1)*sizeof(char));
-                strcpy(qq, "Emotional ");
-                strcat(qq, monster[i].mName);
-                monster[i].mName = qq;
-                
-                monster[i].mMinDamage *= 3;
-                monster[i].mMaxDamage *= 3;
-                
-                monster[i].mMinDamage2 *= 3;
-                monster[i].mMaxDamage2 *= 3;
-                
-                monster[i]._mhitpoints /= 3;
-                
-                break;
-            case 3:
-                qq = (char*) malloc((strlen("Healthy ")+ strlen(monster[i].mName) + 1)*sizeof(char));
-                strcpy(qq, "Healthy ");
-                strcat(qq, monster[i].mName);
-                monster[i].mName = qq;
-                
-                monster[i]._mhitpoints *= 2;
-                
-                break;
-        }
+
+		int32_t rndWhichSuperPower = GenerateRnd(4);
+
+		char * qq;
+
+		switch (rndWhichSuperPower) {
+			case 0:
+				qq = (char*) malloc((strlen("Powerful ")+ strlen(monster[i].mName) + 1)*sizeof(char));
+				strcpy(qq, "Powerful ");
+				strcat(qq, monster[i].mName);
+				monster[i].mName = qq;
+				
+				monster[i].mMinDamage *= 2;
+				monster[i].mMaxDamage *= 2;
+				
+				monster[i].mMinDamage2 *= 2;
+				monster[i].mMaxDamage2 *= 2;
+				
+				break;
+			case 1:
+				qq = (char*) malloc((strlen("Armored ")+ strlen(monster[i].mName) + 1)*sizeof(char));
+				strcpy(qq, "Armored ");
+				strcat(qq, monster[i].mName);
+				monster[i].mName = qq;
+				
+				monster[i].mArmorClass *= 2;
+				
+				break;
+			case 2:
+				qq = (char*) malloc((strlen("Emotional ")+ strlen(monster[i].mName) + 1)*sizeof(char));
+				strcpy(qq, "Emotional ");
+				strcat(qq, monster[i].mName);
+				monster[i].mName = qq;
+				
+				monster[i].mMinDamage *= 3;
+				monster[i].mMaxDamage *= 3;
+				
+				monster[i].mMinDamage2 *= 3;
+				monster[i].mMaxDamage2 *= 3;
+				
+				monster[i]._mhitpoints /= 3;
+				
+				break;
+			case 3:
+				qq = (char*) malloc((strlen("Healthy ")+ strlen(monster[i].mName) + 1)*sizeof(char));
+				strcpy(qq, "Healthy ");
+				strcat(qq, monster[i].mName);
+				monster[i].mName = qq;
+				
+				monster[i]._mhitpoints *= 2;
+				
+				break;
+		}
 	}
 }
 

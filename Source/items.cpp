@@ -2562,15 +2562,15 @@ void SetupAllItems(int ii, int idx, int iseed, int lvl, int uper, bool onlygood,
 		}
 	}
 	SetupItem(ii);
-    
-    if (sgGameInitInfo.nDifficulty == DIFF_CHALLENGE) {
-        int32_t rndBoostStats = GenerateRnd(20);
-        if (rndBoostStats == 4) {
-            items[ii]._iMinDam *= 2;
-            items[ii]._iMaxDam *= 2;
-            items[ii]._iAC *= 2;
-        }
-    }
+
+	if (sgGameInitInfo.nDifficulty == DIFF_CHALLENGE) {
+		int32_t rndBoostStats = GenerateRnd(20);
+		if (rndBoostStats == 4) {
+			items[ii]._iMinDam *= 2;
+			items[ii]._iMaxDam *= 2;
+			items[ii]._iAC *= 2;
+		}
+	}
 }
 
 void SpawnItem(int m, int x, int y, bool sendmsg)

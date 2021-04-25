@@ -216,8 +216,8 @@ void selgame_Diff_Focus(int value)
 		strncpy(selgame_Label, "Hell", sizeof(selgame_Label) - 1);
 		strncpy(selgame_Description, "Hell Difficulty\nThe most powerful of the underworld's creatures lurk at the gateway into Hell. Only the most experienced characters should venture in this realm.", sizeof(selgame_Description) - 1);
 		break;
-    case DIFF_CHALLENGE:
-        strncpy(selgame_Label, "Challenge", sizeof(selgame_Label) - 1);
+	case DIFF_CHALLENGE:
+		strncpy(selgame_Label, "Challenge", sizeof(selgame_Label) - 1);
 		strncpy(selgame_Description, "Challenge Difficulty\nYou will be destroyed.", sizeof(selgame_Description) - 1);
 		break;
 	}
