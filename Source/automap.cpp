@@ -246,8 +246,8 @@ void DrawAutomapItem(const CelOutputBuffer &out, int x, int y, uint8_t color)
 
 void SearchAutomapItem(const CelOutputBuffer &out)
 {
-	int x = plr[myplr].position.tile.x;
-	int y = plr[myplr].position.tile.y;
+	int x = plr[myplr].position.current.x;
+	int y = plr[myplr].position.current.y;
 	if (plr[myplr]._pmode == PM_WALK3) {
 		x = plr[myplr].position.future.x;
 		y = plr[myplr].position.future.y;
@@ -257,11 +257,27 @@ void SearchAutomapItem(const CelOutputBuffer &out)
 			y++;
 	}
 
-	const int startX = clamp(x - 8, 0, MAXDUNX);
-	const int startY = clamp(y - 8, 0, MAXDUNY);
+	//const int startX = std::clamp(x - 8, 0, MAXDUNX);
+	//const int startY = std::clamp(y - 8, 0, MAXDUNY);
 
-	const int endX = clamp(x + 8, 0, MAXDUNX);
-	const int endY = clamp(y + 8, 0, MAXDUNY);
+	//const int endX = std::clamp(x + 8, 0, MAXDUNX);
+	//const int endY = std::clamp(y + 8, 0, MAXDUNY);
+
+    int startX = x - 8;
+    if (x - 8 < 0) startX = 0;
+    else if (MAXDUNX < x - 8) startX = MAXDUNX;
+    
+    int startY = y - 8;
+    if (y - 8 < 0) startY = 0;
+    else if (MAXDUNY < y - 8) startY = MAXDUNY;
+    
+    int endX = x + 8;
+    if (x + 8 < 0) endX = 0;
+    else if (MAXDUNX < x + 8) endX = MAXDUNX;
+    
+    int endY = y + 8;
+    if (y + 8 < 0) endY = 0;
+    else if (MAXDUNY < y + 8) endY = MAXDUNY;
 
 	for (int i = startX; i < endX; i++) {
 		for (int j = startY; j < endY; j++) {
@@ -269,8 +285,8 @@ void SearchAutomapItem(const CelOutputBuffer &out)
 				int px = i - 2 * AutoMapXOfs - ViewX;
 				int py = j - 2 * AutoMapYOfs - ViewY;
 
-				x = (ScrollInfo.offset.x * AutoMapScale / 100 / 2) + (px - py) * AmLine16 + gnScreenWidth / 2;
-				y = (ScrollInfo.offset.y * AutoMapScale / 100 / 2) + (px + py) * AmLine8 + (gnScreenHeight - PANEL_HEIGHT) / 2;
+				x = (ScrollInfo._sxoff * AutoMapScale / 100 / 2) + (px - py) * AmLine16 + gnScreenWidth / 2;
+				y = (ScrollInfo._syoff * AutoMapScale / 100 / 2) + (px + py) * AmLine8 + (gnScreenHeight - PANEL_HEIGHT) / 2;
 
 				if (PANELS_COVER) {
 					if (invflag || sbookflag)
@@ -303,14 +319,14 @@ void DrawAutomapPlr(const CelOutputBuffer &out, int pnum)
 		else
 			y++;
 	} else {
-		x = plr[pnum].position.tile.x;
-		y = plr[pnum].position.tile.y;
+		x = plr[pnum].position.current.x;
+		y = plr[pnum].position.current.y;
 	}
 	int px = x - 2 * AutoMapXOfs - ViewX;
 	int py = y - 2 * AutoMapYOfs - ViewY;
 
-	x = (plr[pnum].position.offset.x * AutoMapScale / 100 / 2) + (ScrollInfo.offset.x * AutoMapScale / 100 / 2) + (px - py) * AmLine16 + gnScreenWidth / 2;
-	y = (plr[pnum].position.offset.y * AutoMapScale / 100 / 2) + (ScrollInfo.offset.y * AutoMapScale / 100 / 2) + (px + py) * AmLine8 + (gnScreenHeight - PANEL_HEIGHT) / 2;
+	x = (plr[pnum].position.offset.x * AutoMapScale / 100 / 2) + (ScrollInfo._sxoff * AutoMapScale / 100 / 2) + (px - py) * AmLine16 + gnScreenWidth / 2;
+	y = (plr[pnum].position.offset.y * AutoMapScale / 100 / 2) + (ScrollInfo._syoff * AutoMapScale / 100 / 2) + (px + py) * AmLine8 + (gnScreenHeight - PANEL_HEIGHT) / 2;
 
 	if (PANELS_COVER) {
 		if (invflag || sbookflag)
@@ -597,7 +613,7 @@ void DrawAutomap(const CelOutputBuffer &out)
 	if ((gnScreenWidth / 2) % d >= (AutoMapScale * 32) / 100)
 		cells++;
 
-	if ((ScrollInfo.offset.x + ScrollInfo.offset.y) != 0)
+	if ((ScrollInfo._sxoff + ScrollInfo._syoff) != 0)
 		cells++;
 	int mapx = AutoMapX - cells;
 	int mapy = AutoMapY - 1;
@@ -618,8 +634,8 @@ void DrawAutomap(const CelOutputBuffer &out)
 		sy -= AmLine8;
 	}
 
-	sx += AutoMapScale * ScrollInfo.offset.x / 100 / 2;
-	sy += AutoMapScale * ScrollInfo.offset.y / 100 / 2;
+	sx += AutoMapScale * ScrollInfo._sxoff / 100 / 2;
+	sy += AutoMapScale * ScrollInfo._syoff / 100 / 2;
 	if (PANELS_COVER) {
 		if (invflag || sbookflag) {
 			sx -= gnScreenWidth / 4;
@@ -743,3 +759,4 @@ void AutomapZoomReset()
 }
 
 } // namespace devilution
+

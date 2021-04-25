@@ -445,7 +445,8 @@ void AddInitItems()
 			x = GenerateRnd(80) + 16;
 			y = GenerateRnd(80) + 16;
 		}
-		items[ii].position = { x, y };
+		items[ii]._ix = x;
+		items[ii]._iy = y;
 
 		dItem[x][y] = ii + 1;
 
@@ -502,7 +503,8 @@ void InitItems()
 
 	for (i = 0; i < MAXITEMS; i++) {
 		items[i]._itype = ITYPE_NONE;
-		items[i].position = { 0, 0 };
+		items[i]._ix = 0;
+		items[i]._iy = 0;
 		items[i]._iAnimFlag = false;
 		items[i]._iSelFlag = 0;
 		items[i]._iIdentified = false;
@@ -557,7 +559,7 @@ void CalcPlrItemVals(int p, bool Loadgfx)
 	int dadd = 0; // added dexterity
 	int vadd = 0; // added vitality
 
-	uint64_t spl = 0; // bitarray for all enabled/active spells
+	Uint64 spl = 0; // bitarray for all enabled/active spells
 
 	int fr = 0; // fire resistance
 	int lr = 0; // lightning resistance
@@ -666,7 +668,9 @@ void CalcPlrItemVals(int p, bool Loadgfx)
 	plr[p]._pIBonusDamMod = dmod;
 	plr[p]._pIGetHit = ghit;
 
-	lrad = clamp(lrad, 2, 15);
+	//lrad = std::clamp(lrad, 2, 15);
+    if (lrad < 2) lrad = 2;
+    else if (15 < lrad) lrad = 15;
 
 	if (plr[p]._pLightRad != lrad && p == myplr) {
 		ChangeLightRadius(plr[p]._plid, lrad);
@@ -750,9 +754,20 @@ void CalcPlrItemVals(int p, bool Loadgfx)
 		lr = 0;
 	}
 
-	plr[p]._pMagResist = clamp(mr, 0, MAXRESIST);
-	plr[p]._pFireResist = clamp(fr, 0, MAXRESIST);
-	plr[p]._pLghtResist = clamp(lr, 0, MAXRESIST);
+	//plr[p]._pMagResist = std::clamp(mr, 0, MAXRESIST);
+    plr[p]._pMagResist = mr;
+    if (mr < 0) plr[p]._pMagResist = 0;
+    else if (MAXRESIST < mr) plr[p]._pMagResist = MAXRESIST;
+    
+	//plr[p]._pFireResist = std::clamp(fr, 0, MAXRESIST);
+    plr[p]._pFireResist = fr;
+    if (fr < 0) plr[p]._pFireResist = 0;
+    else if (MAXRESIST < fr) plr[p]._pFireResist = MAXRESIST;
+    
+	//plr[p]._pLghtResist = std::clamp(lr, 0, MAXRESIST);
+    plr[p]._pLghtResist = lr;
+    if (lr < 0) plr[p]._pLghtResist = 0;
+    else if (MAXRESIST < lr) plr[p]._pLghtResist = MAXRESIST;
 
 	if (plr[p]._pClass == HeroClass::Warrior) {
 		vadd *= 2;
@@ -1383,7 +1398,8 @@ static bool GetItemSpace(int x, int y, int8_t inum)
 
 	xx += x - 1;
 	yy += y - 1;
-	items[inum].position = { xx, yy };
+	items[inum]._ix = xx;
+	items[inum]._iy = yy;
 	dItem[xx][yy] = inum + 1;
 
 	return true;
@@ -1410,7 +1426,8 @@ static void GetSuperItemSpace(int x, int y, int8_t inum)
 				for (int i = -k; i <= k; i++) {
 					int xx = i + x;
 					if (ItemSpaceOk(xx, yy)) {
-						items[inum].position = { xx, yy };
+						items[inum]._ix = xx;
+						items[inum]._iy = yy;
 						dItem[xx][yy] = inum + 1;
 						return;
 					}
@@ -2847,7 +2864,8 @@ void items_427ABA(int x, int y)
 	dItem[x][y] = ii + 1;
 
 	UnPackItem(&PkSItem, &items[ii], (PkSItem.dwBuff & CF_HELLFIRE) != 0);
-	items[ii].position = { x, y };
+	items[ii]._ix = x;
+	items[ii]._iy = y;
 	RespawnItem(&items[ii], false);
 	CornerStone.item = items[ii];
 }
@@ -2880,7 +2898,8 @@ void SpawnQuestItem(int itemid, int x, int y, int randarea, int selflag)
 
 	int ii = AllocateItem();
 
-	items[ii].position = { x, y };
+	items[ii]._ix = x;
+	items[ii]._iy = y;
 
 	dItem[x][y] = ii + 1;
 
@@ -2913,10 +2932,11 @@ void SpawnRock()
 
 	int ii = AllocateItem();
 
-	int xx = object[oi].position.x;
-	int yy = object[oi].position.y;
-	items[ii].position = { xx, yy };
-	dItem[xx][items[ii].position.y] = ii + 1;
+	int xx = object[oi]._ox;
+	int yy = object[oi]._oy;
+	items[ii]._ix = xx;
+	items[ii]._iy = yy;
+	dItem[xx][items[ii]._iy] = ii + 1;
 	int curlv = items_get_currlevel();
 	GetItemAttrs(ii, IDI_ROCK, curlv);
 	SetupItem(ii);
@@ -2932,7 +2952,8 @@ void SpawnRewardItem(int itemid, int xx, int yy)
 
 	int ii = AllocateItem();
 
-	items[ii].position = { xx, yy };
+	items[ii]._ix = xx;
+	items[ii]._iy = yy;
 	dItem[xx][yy] = ii + 1;
 	int curlv = items_get_currlevel();
 	GetItemAttrs(ii, itemid, curlv);
@@ -2982,7 +3003,7 @@ void RespawnItem(ItemStruct *item, bool FlipFlag)
 
 	if (item->_iCurs == ICURS_MAGIC_ROCK) {
 		item->_iSelFlag = 1;
-		PlaySfxLoc(ItemDropSnds[it], item->position.x, item->position.y);
+		PlaySfxLoc(ItemDropSnds[it], item->_ix, item->_iy);
 	}
 	if (item->_iCurs == ICURS_TAVERN_SIGN)
 		item->_iSelFlag = 1;
@@ -3007,7 +3028,7 @@ void ItemDoppel()
 		for (idoppelx = 16; idoppelx < 96; idoppelx++) {
 			if (dItem[idoppelx][idoppely]) {
 				i = &items[dItem[idoppelx][idoppely] - 1];
-				if (i->position.x != idoppelx || i->position.y != idoppely)
+				if (i->_ix != idoppelx || i->_iy != idoppely)
 					dItem[idoppelx][idoppely] = 0;
 			}
 		}
@@ -3032,7 +3053,7 @@ void ProcessItems()
 					items[ii]._iAnimFrame = 11;
 			} else {
 				if (items[ii]._iAnimFrame == items[ii]._iAnimLen / 2)
-					PlaySfxLoc(ItemDropSnds[ItemCAnimTbl[items[ii]._iCurs]], items[ii].position.x, items[ii].position.y);
+					PlaySfxLoc(ItemDropSnds[ItemCAnimTbl[items[ii]._iCurs]], items[ii]._ix, items[ii]._iy);
 
 				if (items[ii]._iAnimFrame >= items[ii]._iAnimLen) {
 					items[ii]._iAnimFrame = items[ii]._iAnimLen;
@@ -3123,7 +3144,7 @@ void DoRepair(int pnum, int cii)
 	ItemStruct *pi;
 
 	p = &plr[pnum];
-	PlaySfxLoc(IS_REPAIR, p->position.tile.x, p->position.tile.y);
+	PlaySfxLoc(IS_REPAIR, p->position.current.x, p->position.current.y);
 
 	if (cii >= NUM_INVLOC) {
 		pi = &p->InvList[cii - NUM_INVLOC];
@@ -3874,9 +3895,9 @@ void PrintItemMisc(ItemStruct *x)
 static void PrintItemInfo(ItemStruct *x)
 {
 	PrintItemMisc(x);
-	uint8_t str = x->_iMinStr;
-	uint8_t dex = x->_iMinDex;
-	uint8_t mag = x->_iMinMag;
+	Uint8 str = x->_iMinStr;
+	Uint8 dex = x->_iMinDex;
+	Uint8 mag = x->_iMinMag;
 	if (str != 0 || mag != 0 || dex != 0) {
 		strcpy(tempstr, "Required:");
 		if (str)
@@ -4375,7 +4396,10 @@ static void SpawnOnePremium(int i, int plvl, int myplr)
 	dexterity *= 1.2;
 	magic *= 1.2;
 
-	plvl = clamp(plvl, 1, 30);
+	//plvl = std::clamp(plvl, 1, 30);
+
+    if (plvl < 1) plvl = 1;
+    else if (30 < plvl) plvl = 30;
 
 	int count = 0;
 
