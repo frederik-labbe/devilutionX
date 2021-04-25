@@ -72,6 +72,7 @@ const char *const MsgStrings[] = {
 	"You feel wiser.",
 	"You feel refreshed.",
 	"That which can break will.",
+    "Are you lost in the dungeon? This is hilarious.",
 };
 
 void InitDiabloMsg(diablo_message e)

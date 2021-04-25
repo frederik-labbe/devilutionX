@@ -1040,7 +1040,7 @@ void LoadGame(bool firstflag)
 	LoadPlayer(&file, myplr);
 
 	sgGameInitInfo.nDifficulty = plr[myplr].pDifficulty;
-	if (sgGameInitInfo.nDifficulty < DIFF_NORMAL || sgGameInitInfo.nDifficulty > DIFF_HELL)
+	if (sgGameInitInfo.nDifficulty < DIFF_NORMAL || sgGameInitInfo.nDifficulty > DIFF_CHALLENGE)
 		sgGameInitInfo.nDifficulty = DIFF_NORMAL;
 
 	for (int i = 0; i < giNumberQuests; i++)

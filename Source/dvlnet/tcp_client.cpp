@@ -12,7 +12,8 @@
 
 #include <asio/connect.hpp>
 
-namespace devilution::net {
+namespace devilution {
+namespace net {
 
 int tcp_client::create(std::string addrstr, std::string passwd)
 {
@@ -136,4 +137,4 @@ tcp_client::~tcp_client()
 {
 }
 
-} // namespace devilution::net
+}} // namespace devilution::net

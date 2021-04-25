@@ -1660,6 +1660,7 @@ void GetItemAttrs(int i, int idata, int lvl)
 	items[i]._iMinMag = AllItemsList[idata].iMinMag;
 	items[i]._iMinDex = AllItemsList[idata].iMinDex;
 	items[i].IDidx = idata;
+    
 	if (gbIsHellfire)
 		items[i].dwBuff |= CF_HELLFIRE;
 	items[i]._iPrePower = IPL_INVALID;
@@ -1685,6 +1686,9 @@ void GetItemAttrs(int i, int idata, int lvl)
 		break;
 	case DIFF_HELL:
 		rndv = 5 * (itemlevel + 32) + GenerateRnd(10 * (itemlevel + 32));
+		break;
+    case DIFF_CHALLENGE:
+        rndv = 5 * (itemlevel + 32) + GenerateRnd(10 * (itemlevel + 32));
 		break;
 	}
 	if (leveltype == DTYPE_HELL)
@@ -1728,7 +1732,7 @@ void SaveItemPower(int i, item_effect_type power, int param1, int param2, int mi
 		break;
 	case IPL_DOPPELGANGER:
 		items[i]._iDamAcFlags |= 16;
-		[[fallthrough]];
+		//[[fallthrough]];
 	case IPL_TOHIT_DAMP:
 		r = RndPL(param1, param2);
 		items[i]._iPLDam += r;
@@ -1877,7 +1881,7 @@ void SaveItemPower(int i, item_effect_type power, int param1, int param2, int mi
 		break;
 	case IPL_CRYSTALLINE:
 		items[i]._iPLDam += 140 + r * 2;
-		[[fallthrough]];
+		//[[fallthrough]];
 	case IPL_DUR_CURSE:
 		items[i]._iMaxDur -= r * items[i]._iMaxDur / 100;
 		items[i]._iMaxDur = std::max<uint8_t>(items[i]._iMaxDur, 1);
@@ -2558,6 +2562,15 @@ void SetupAllItems(int ii, int idx, int iseed, int lvl, int uper, bool onlygood,
 		}
 	}
 	SetupItem(ii);
+    
+    if (sgGameInitInfo.nDifficulty == DIFF_CHALLENGE) {
+        int32_t rndBoostStats = GenerateRnd(20);
+        if (rndBoostStats == 4) {
+            items[ii]._iMinDam *= 2;
+            items[ii]._iMaxDam *= 2;
+            items[ii]._iAC *= 2;
+        }
+    }
 }
 
 void SpawnItem(int m, int x, int y, bool sendmsg)
