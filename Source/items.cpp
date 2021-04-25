@@ -1686,8 +1686,8 @@ void GetItemAttrs(int i, int idata, int lvl)
 	case DIFF_HELL:
 		rndv = 5 * (itemlevel + 32) + GenerateRnd(10 * (itemlevel + 32));
 		break;
-    case DIFF_CHALLENGE:
-        rndv = 5 * (itemlevel + 32) + GenerateRnd(10 * (itemlevel + 32));
+	case DIFF_CHALLENGE:
+		rndv = 5 * (itemlevel + 32) + GenerateRnd(10 * (itemlevel + 32));
 		break;
 	}
 	if (leveltype == DTYPE_HELL)
