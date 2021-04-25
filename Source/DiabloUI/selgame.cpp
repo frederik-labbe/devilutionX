@@ -160,7 +160,7 @@ void selgame_GameSelection_Select(int value)
 		vecSelGameDlgItems.push_back(new UiListItem("Normal", DIFF_NORMAL));
 		vecSelGameDlgItems.push_back(new UiListItem("Nightmare", DIFF_NIGHTMARE));
 		vecSelGameDlgItems.push_back(new UiListItem("Hell", DIFF_HELL));
-        vecSelGameDlgItems.push_back(new UiListItem("Challenge", DIFF_CHALLENGE));
+		vecSelGameDlgItems.push_back(new UiListItem("Challenge", DIFF_CHALLENGE));
 
 		vecSelGameDialog.push_back(new UiList(vecSelGameDlgItems, PANEL_LEFT + 300, (UI_OFFSET_Y + 282), 295, 26, UIS_CENTER | UIS_MED | UIS_GOLD));
 

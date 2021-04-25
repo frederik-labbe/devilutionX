@@ -78,7 +78,7 @@ enum _difficulty : uint8_t {
 	DIFF_NORMAL,
 	DIFF_NIGHTMARE,
 	DIFF_HELL,
-    DIFF_CHALLENGE,
+	DIFF_CHALLENGE,
 };
 
 struct ScrollStruct {

@@ -977,7 +977,7 @@ void DoAutoMap()
 {
 	if (currlevel != 0 || gbIsMultiplayer) {
 		if (!automapflag)
-            InitDiabloMsg(EMSG_AUTOMAP_LOST);
+			InitDiabloMsg(EMSG_AUTOMAP_LOST);
 		else
 			automapflag = false;
 	} else {

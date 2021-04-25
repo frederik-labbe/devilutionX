@@ -1660,7 +1660,6 @@ void GetItemAttrs(int i, int idata, int lvl)
 	items[i]._iMinMag = AllItemsList[idata].iMinMag;
 	items[i]._iMinDex = AllItemsList[idata].iMinDex;
 	items[i].IDidx = idata;
-    
 	if (gbIsHellfire)
 		items[i].dwBuff |= CF_HELLFIRE;
 	items[i]._iPrePower = IPL_INVALID;
